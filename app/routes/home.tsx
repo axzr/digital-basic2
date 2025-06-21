@@ -1,17 +1,21 @@
-import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { useState } from "react";
+import { HighlightWithinTextarea } from "react-highlight-within-textarea";
 
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
+export function meta() {
+  return [{ title: "Basic English Spellchecker" }];
 }
 
-export function loader({ context }: Route.LoaderArgs) {
-  return { message: "Hello from Vercel" };
-}
+const Home = () => {
+  const [value, setValue] = useState("X Y Z and then XYZ");
+  const onChange = (value: string) => setValue(value);
 
-export default function Home({ loaderData }: Route.ComponentProps) {
-  return <Welcome message={loaderData.message} />;
-}
+  return (
+    <HighlightWithinTextarea
+      value={value}
+      highlight={/[XYZ]/g}
+      onChange={onChange}
+    />
+  );
+};
+
+export default Home;
