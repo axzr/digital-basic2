@@ -1,20 +1,15 @@
-import { useState } from "react";
-import { HighlightWithinTextarea } from "react-highlight-within-textarea";
+import Editor from "~/components/editor";
 
 export function meta() {
   return [{ title: "Basic English Spellchecker" }];
 }
 
 const Home = () => {
-  const [value, setValue] = useState("X Y Z and then XYZ");
-  const onChange = (value: string) => setValue(value);
-
   return (
-    <HighlightWithinTextarea
-      value={value}
-      highlight={/[XYZ]/g}
-      onChange={onChange}
-    />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <h1 className="text-3xl font-bold mb-4">Basic English Spellchecker</h1>
+      <Editor />
+    </div>
   );
 };
 
