@@ -6,15 +6,36 @@ export const spellCheck = (
 ) => {
   const words = text.split(/\s+/);
 
-  words.forEach((word) => {
+  // we don't want to check words more than once
+  // so use a Set to track unique words
+  const uniqueWords = new Set([...words]);
+
+  uniqueWords.forEach((word) => {
     if (!isDictionaryWord(word)) {
-      // if this isn't a valid word, then let the callback know where it is in the text
-      // this is slightly clumsy atm as it will only find the first occurrence of the word
-      // also, it's matching previous partials
-      // @@@@ Fix this
-      const start = text.indexOf(word);
-      const end = start + word.length;
-      callback(start, end);
+      // need to find every instance of the word in the text
+      // this is really inefficient, needs to be improved @@@@
+      // ideally we want to store the start of each word as we build the list of words - instead of, or perhaps in addition to, the Set
+      let search = 0;
+
+      while (search < text.length) {
+        const index = text.indexOf(word, search);
+        if (index === -1) break; // No more instances found
+
+        // check it's the whole word, not part of another word
+        const beforeChar = index > 0 ? text[index - 1] : " ";
+        const afterChar =
+          index + word.length < text.length ? text[index + word.length] : " ";
+
+        if (/\w/.test(beforeChar) || /\w/.test(afterChar)) {
+          search = index + 1; // Skip to next character
+          continue; // Skip this instance, it's part of another word
+        }
+
+        const start = index;
+        const end = start + word.length;
+        callback(start, end);
+        search = end; // Move search position forward
+      }
     }
   });
 };
