@@ -11,7 +11,7 @@ export const spellCheck = (
   const uniqueWords = new Set([...words]);
 
   uniqueWords.forEach((word) => {
-    if (!isDictionaryWord(word)) {
+    if (word.length && !isDictionaryWord(word)) {
       // need to find every instance of the word in the text
       // this is really inefficient, needs to be improved @@@@
       // ideally we want to store the start of each word as we build the list of words - instead of, or perhaps in addition to, the Set
@@ -34,7 +34,7 @@ export const spellCheck = (
         const start = index;
         const end = start + word.length;
         callback(start, end);
-        search = end; // Move search position forward
+        search = end + 1; // Move search position forward
       }
     }
   });
