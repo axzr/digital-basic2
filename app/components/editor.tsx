@@ -9,7 +9,7 @@ const Editor = () => {
   const onChange = (value: string) => setValue(value);
 
   return (
-    <div className="b-gray-200 p-4 rounded-lg shadow-md max-w-md mx-auto">
+    <div className="bg-white text-lg p-4 rounded-lg shadow-md max-w-md mx-auto">
       <HighlightWithinTextarea
         value={value}
         highlight={spellCheck}
